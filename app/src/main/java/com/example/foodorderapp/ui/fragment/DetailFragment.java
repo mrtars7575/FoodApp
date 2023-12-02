@@ -3,6 +3,7 @@ package com.example.foodorderapp.ui.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -10,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.bumptech.glide.Glide;
 import com.example.foodorderapp.R;
@@ -41,6 +43,7 @@ public class DetailFragment extends Fragment {
 
         DetailFragmentArgs bundle = DetailFragmentArgs.fromBundle(getArguments());
         Food food =bundle.getFood();
+
 
         String url = "http://kasimadalan.pe.hu/yemekler/resimler/" + food.getFoodImageName();
         Glide.with(getContext())
@@ -75,6 +78,33 @@ public class DetailFragment extends Fragment {
                         ,viewModel.foodQuantity.getValue());
 
                 Navigation.findNavController(view).navigate(R.id.action_detailFragment_to_basketFragment);
+            }
+        });
+
+        viewModel.favoriteList.observe(getViewLifecycleOwner(),foods -> {
+
+
+
+            if (foods.contains(food)){
+                //
+                binding.detailToggleButton.setChecked(true);
+            }else{
+                //
+                boolean mBool = false;
+                binding.detailToggleButton.setChecked(mBool);
+            }
+        });
+
+        binding.detailToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    //
+                    viewModel.addToFavorite(food);
+                }else{
+                    //
+                    viewModel.deleteFromFavorite(food);
+                }
             }
         });
 

@@ -70,9 +70,6 @@ public class AppDaoRepository {
         });
     }
 
-
-
-
     public void deleteFoodFromBasket(int basketId,String userName){
         appDao.deleteFoodFromBasket(basketId,userName).enqueue(new Callback<CRUDResponse>() {
             @Override
@@ -88,35 +85,41 @@ public class AppDaoRepository {
         });
     }
 
-   /* public void insertFoodToBasket(String foodName,String foodImageName,int foodPrice,int foodQuantity,String userName){
+    public void insertFoodToBasket(String foodName,String foodImageName,int foodPrice,int foodQuantity,String userName){
         boolean isFoodAdded = false;
-        if (baskets!=null){
-            for (Basket basket : baskets){
-                if(foodName == basket.getFoodName()){
+        List<Basket> foods = basketList.getValue();
+        if (foods != null && !foods.isEmpty()) {
+            for (Basket food : foods) {
+                if (food.getFoodName().equals(foodName)) {
                     isFoodAdded = true;
-
+                    foodQuantity = foodQuantity + food.getFoodQuantity();
+                    addToBasketToApi(foodName,foodImageName,foodPrice,foodQuantity,userName);
+                    deleteFoodFromBasket(food.getBasketId(),userName);
                 }
             }
         }
+        if (!isFoodAdded) {
+            addToBasketToApi(foodName,foodImageName,foodPrice,foodQuantity,userName);
+        }
 
-    }*/
+    }
 
-    public void insertFoodToBasket(String foodName,String foodImageName,int foodPrice,int foodQuantity,String userName){
+
+
+    public void addToBasketToApi(String foodName,String foodImageName,int foodPrice,int foodQuantity,String userName){
         appDao.insertFoodToBasket(foodName,foodImageName,foodPrice,foodQuantity,userName)
                 .enqueue(new Callback<CRUDResponse>() {
                     @Override
                     public void onResponse(Call<CRUDResponse> call, Response<CRUDResponse> response) {
-                        System.out.println("insert " + response.body().getSuccess());
-                        System.out.println("insert " + response.body().getMessage());
+                        System.out.println("insert  add to basket api " + response.body().getSuccess());
+                        System.out.println("insert  add to basket ap " + response.body().getMessage());
                     }
 
                     @Override
                     public void onFailure(Call<CRUDResponse> call, Throwable t) {
-                        System.out.println("insert food to basket error");
+                        System.out.println("insert food to basket error add to basket api");
                     }
                 });
     }
-
-    
 
 }
