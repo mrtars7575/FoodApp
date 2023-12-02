@@ -8,6 +8,9 @@ import com.example.foodorderapp.data.entity.CRUDResponse;
 import com.example.foodorderapp.data.entity.Food;
 import com.example.foodorderapp.data.entity.FoodResponse;
 import com.example.foodorderapp.retrofit.AppDao;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,10 +23,17 @@ public class AppDaoRepository {
     public MutableLiveData<List<Food>> foodList = new MutableLiveData();
     public MutableLiveData<List<Basket>> basketList = new MutableLiveData<>();
     private AppDao appDao;
-
+    private FirebaseAuth auth;
+    public String username;
+    public List<Basket> baskets;
     @Inject
-    public AppDaoRepository(AppDao appDao) {
+    public AppDaoRepository(AppDao appDao,FirebaseAuth auth) {
         this.appDao = appDao;
+        this.auth = auth;
+        if (auth!=null){
+            username = auth.getCurrentUser().getDisplayName();
+        }
+
     }
 
     public void getAllFood(){
@@ -42,14 +52,14 @@ public class AppDaoRepository {
         });
     }
 
-    public void getAllFoodInBasket(String userName){
-        appDao.getAllFoodInBasket(userName).enqueue(new Callback<BasketResponse>() {
+    public void getAllFoodInBasket(){
+        appDao.getAllFoodInBasket(username).enqueue(new Callback<BasketResponse>() {
             @Override
             public void onResponse(Call<BasketResponse> call, Response<BasketResponse> response) {
                 System.out.println("get all food in basket");
                 System.out.println("basket" + response.body().getSuccess());
                 System.out.println(response.body().getBasketList());
-                List<Basket> baskets = response.body().getBasketList();
+                baskets = response.body().getBasketList();
                 basketList.setValue(baskets);
             }
 
@@ -60,12 +70,15 @@ public class AppDaoRepository {
         });
     }
 
+
+
+
     public void deleteFoodFromBasket(int basketId,String userName){
         appDao.deleteFoodFromBasket(basketId,userName).enqueue(new Callback<CRUDResponse>() {
             @Override
             public void onResponse(Call<CRUDResponse> call, Response<CRUDResponse> response) {
                 System.out.println("delete " + response.body().getMessage() );
-                getAllFoodInBasket("Murat");
+                getAllFoodInBasket();
             }
 
             @Override
@@ -74,6 +87,19 @@ public class AppDaoRepository {
             }
         });
     }
+
+   /* public void insertFoodToBasket(String foodName,String foodImageName,int foodPrice,int foodQuantity,String userName){
+        boolean isFoodAdded = false;
+        if (baskets!=null){
+            for (Basket basket : baskets){
+                if(foodName == basket.getFoodName()){
+                    isFoodAdded = true;
+
+                }
+            }
+        }
+
+    }*/
 
     public void insertFoodToBasket(String foodName,String foodImageName,int foodPrice,int foodQuantity,String userName){
         appDao.insertFoodToBasket(foodName,foodImageName,foodPrice,foodQuantity,userName)
@@ -91,5 +117,6 @@ public class AppDaoRepository {
                 });
     }
 
+    
 
 }

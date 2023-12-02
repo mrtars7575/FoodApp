@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.foodorderapp.data.repo.AppDaoRepository;
 import com.example.foodorderapp.retrofit.ApiUtils;
 import com.example.foodorderapp.retrofit.AppDao;
+import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Singleton;
 
@@ -18,8 +19,9 @@ import dagger.hilt.components.SingletonComponent;
 public class AppModule {
     @Provides
     @Singleton
-    public AppDaoRepository provideAppDaoRepository(AppDao appDao){
-        return new AppDaoRepository(appDao);
+    public AppDaoRepository provideAppDaoRepository(AppDao appDao,
+    FirebaseAuth auth){
+        return new AppDaoRepository(appDao,auth);
     }
 
     @Provides

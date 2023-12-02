@@ -10,9 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.foodorderapp.R;
 import com.example.foodorderapp.databinding.FragmentBasketBinding;
-import com.example.foodorderapp.ui.adapter.BasketAdapter;
+import com.example.foodorderapp.ui.adapter.basket.BasketAdapter;
 import com.example.foodorderapp.ui.viewmodel.BasketViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -22,6 +21,7 @@ public class BasketFragment extends Fragment {
 
     private FragmentBasketBinding binding;
     private BasketViewModel viewModel;
+    private BasketAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,8 @@ public class BasketFragment extends Fragment {
         binding.basketRv.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         viewModel.basketList.observe(getViewLifecycleOwner(),baskets -> {
-            BasketAdapter adapter = new BasketAdapter(baskets,getContext(),viewModel);
+
+            adapter = new BasketAdapter(baskets,getContext(),viewModel);
             binding.basketRv.setAdapter(adapter);
 
         });
@@ -49,6 +50,6 @@ public class BasketFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.getAllFoodInBasket("Murat");
+        viewModel.getAllFoodInBasket();
     }
 }

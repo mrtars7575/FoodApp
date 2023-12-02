@@ -1,4 +1,4 @@
-package com.example.foodorderapp.ui.adapter;
+package com.example.foodorderapp.ui.adapter.food;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,14 +9,11 @@ import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.foodorderapp.data.entity.Food;
 import com.example.foodorderapp.databinding.FoodRecyclerViewBinding;
-import com.example.foodorderapp.databinding.FragmentBasketBinding;
-import com.example.foodorderapp.databinding.FragmentHomeBinding;
 import com.example.foodorderapp.ui.fragment.HomeFragmentDirections;
 import com.example.foodorderapp.ui.viewmodel.HomeViewModel;
 
@@ -29,12 +26,16 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
     private Context mContext;
     private HomeViewModel viewModel;
     private List<Food> filteredList;
+    private List<Food> favoriteList;
+    private IFoodAdapterItemClickListener listener;
 
-    public FoodAdapter(List<Food> foodList, Context mContext, HomeViewModel viewModel) {
+    public FoodAdapter(List<Food> foodList, Context mContext, HomeViewModel viewModel,List<Food> favoriteList,IFoodAdapterItemClickListener listener) {
         this.foodList = foodList;
         this.mContext = mContext;
         this.viewModel = viewModel;
         this.filteredList = new ArrayList<>(foodList);
+        this.favoriteList = favoriteList;
+        this.listener = listener;
     }
 
     @Override
@@ -98,6 +99,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
         String url = "http://kasimadalan.pe.hu/yemekler/resimler/" + food.getFoodImageName();
         Glide.with(mContext).load(url).into(holder.binding.foodIv);
 
+
+
         holder.binding.foodCv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,6 +110,33 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
                 Navigation.findNavController(view).navigate(action);
             }
         });
+
+
+        // toggle button click
+        holder.binding.favoriteToggleButton.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b){
+                System.out.println("is checked : " + b);
+                // different icon
+            }else{
+                System.out.println("is checked : " + b);
+                //
+            }
+
+            listener.onClickFavoriteToogleButton(food,b);
+
+        });
+
+
+
+        //check toggle button
+        if(favoriteList.contains(food)){
+            // icon
+            holder.binding.favoriteToggleButton.setChecked(true);
+        }else{
+            holder.binding.favoriteToggleButton.setChecked(false);
+        }
+
+
 
     }
 

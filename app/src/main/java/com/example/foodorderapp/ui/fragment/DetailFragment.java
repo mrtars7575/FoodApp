@@ -25,6 +25,7 @@ public class DetailFragment extends Fragment {
     private FragmentDetailBinding binding;
     private DetailViewModel viewModel;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +64,7 @@ public class DetailFragment extends Fragment {
         binding.decreaseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.decreaseQunatity();
+                viewModel.decreaseQuantity();
             }
         });
 
@@ -71,7 +72,7 @@ public class DetailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 viewModel.insertFoodToBasket(food.getFoodName(), food.getFoodImageName(),food.getFoodPrice()
-                        ,viewModel.foodQuantity.getValue(),"Murat");
+                        ,viewModel.foodQuantity.getValue());
 
                 Navigation.findNavController(view).navigate(R.id.action_detailFragment_to_basketFragment);
             }

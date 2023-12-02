@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel;
 import com.example.foodorderapp.data.entity.Basket;
 import com.example.foodorderapp.data.entity.Food;
 import com.example.foodorderapp.data.repo.AppDaoRepository;
+import com.example.foodorderapp.data.repo.database.FirebaseDatabaseRepository;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -18,19 +20,29 @@ public class BasketViewModel extends ViewModel {
 
     public AppDaoRepository appDaoRepository;
     public MutableLiveData<List<Basket>> basketList;
+    public FirebaseDatabaseRepository firebaseDatabaseRepository;
+    private FirebaseAuth auth;
+    private String username ;
 
     @Inject
-    public BasketViewModel(AppDaoRepository appDaoRepository) {
+    public BasketViewModel(AppDaoRepository appDaoRepository,FirebaseDatabaseRepository firebaseDatabaseRepository,FirebaseAuth auth) {
         this.appDaoRepository = appDaoRepository;
-        getAllFoodInBasket("Murat");
+        this.firebaseDatabaseRepository = firebaseDatabaseRepository;
+        this.auth = auth;
+        username = auth.getCurrentUser().getDisplayName();
+        getAllFoodInBasket();
         basketList = appDaoRepository.basketList;
+
+
     }
 
-    public void getAllFoodInBasket(String userName){
-        appDaoRepository.getAllFoodInBasket(userName);
+    public void getAllFoodInBasket(){
+        appDaoRepository.getAllFoodInBasket();
     }
 
-    public void deleteFoodFromBasket(int basketId,String userName){
-        appDaoRepository.deleteFoodFromBasket(basketId,"Murat");
+    public void deleteFoodFromBasket(int basketId){
+        appDaoRepository.deleteFoodFromBasket(basketId,username);
     }
+
+    //favorite firebase
 }

@@ -1,4 +1,4 @@
-package com.example.foodorderapp.ui.adapter;
+package com.example.foodorderapp.ui.adapter.basket;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodorderapp.data.entity.Basket;
 import com.example.foodorderapp.databinding.BasketRecyclerViewBinding;
-import com.example.foodorderapp.databinding.FoodRecyclerViewBinding;
 import com.example.foodorderapp.ui.viewmodel.BasketViewModel;
 
 
@@ -74,7 +73,13 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
         holder.binding.deleteBasketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.deleteFoodFromBasket(basket.getBasketId(),"Murat");
+
+                if (basketList.size()==1){
+                    notifyItemRemoved(0);
+                    basketList.clear();
+                }
+
+                viewModel.deleteFoodFromBasket(basket.getBasketId());
             }
         });
 
