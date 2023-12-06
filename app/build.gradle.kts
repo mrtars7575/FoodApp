@@ -75,4 +75,6 @@ dependencies {
 
 
     implementation("com.google.firebase:firebase-database")
+
+    implementation ("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
 }

@@ -9,12 +9,12 @@
         android:id="@+id/foodCv"
         android:layout_width="200dp"
         android:layout_height="300dp"
-        tools:ignore="MissingConstraints"
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp"
         app:cardMaxElevation="10dp"
         app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,54 +24,42 @@
                 android:id="@+id/foodNameTv"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
+                android:layout_marginTop="16dp"
                 android:text="Vegetaian pizza"
-                android:textSize="15dp"
+                android:textSize="20dp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/foodIv"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.505"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.761" />
+                app:layout_constraintTop_toBottomOf="@+id/foodIv" />
 
             <TextView
                 android:id="@+id/foodPriceTv"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:text="TextView"
                 android:textSize="18dp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/addFoodBtn"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/foodIv" />
+                app:layout_constraintTop_toBottomOf="@+id/foodNameTv" />
 
             <ImageView
                 android:id="@+id/foodIv"
-                android:layout_width="129dp"
-                android:layout_height="108dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.652"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.458"
+                app:layout_constraintTop_toBottomOf="@+id/favoriteToggleButton"
                 tools:srcCompat="@tools:sample/avatars" />
-
-            <Button
-                android:id="@+id/addFoodBtn"
-                android:layout_width="80dp"
-                android:layout_height="37dp"
-                android:text="Add"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/foodPriceTv" />
 
             <ToggleButton
                 android:id="@+id/favoriteToggleButton"
-                android:layout_width="24dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/heart"
@@ -81,6 +69,17 @@
                 android:textOn='""'
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/addBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="#44c662"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/foodNameTv"
+                app:srcCompat="@drawable/baseline_add_24" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@ import com.example.foodorderapp.databinding.FragmentBasketBinding;
 import com.example.foodorderapp.ui.adapter.basket.BasketAdapter;
 import com.example.foodorderapp.ui.viewmodel.BasketViewModel;
 
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -34,6 +35,9 @@ public class BasketFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentBasketBinding.inflate(inflater,container,false);
+
+        /*utils = new Utils();
+        utils.bottomNavInActivity(requireActivity());*/
 
         binding.basketRv.setLayoutManager(new LinearLayoutManager(requireContext()));
 

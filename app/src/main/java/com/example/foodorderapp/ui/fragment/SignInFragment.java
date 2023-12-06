@@ -23,6 +23,7 @@ public class SignInFragment extends Fragment {
     private SignInViewModel viewModel;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,9 @@ public class SignInFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentSignInBinding.inflate(inflater,container,false);
+
+        /*utils = new Utils();
+        utils.bottomNavInActivity(requireActivity());*/
 
 
 
@@ -51,7 +55,7 @@ public class SignInFragment extends Fragment {
                     viewModel.userLogged.observe(getViewLifecycleOwner(),value -> {
                         System.out.println("value " + value);
                         if(value){
-                            Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeFragment);
+                           Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeFragment);
                         }
                     });
                 }

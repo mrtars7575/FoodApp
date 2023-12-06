@@ -23,7 +23,7 @@ public class AppDaoRepository {
     public MutableLiveData<List<Food>> foodList = new MutableLiveData();
     public MutableLiveData<List<Basket>> basketList = new MutableLiveData<>();
     private AppDao appDao;
-    private FirebaseAuth auth;
+    public FirebaseAuth auth;
     public String username;
     public List<Basket> baskets;
     @Inject

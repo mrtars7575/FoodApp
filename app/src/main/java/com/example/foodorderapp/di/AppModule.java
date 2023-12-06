@@ -19,8 +19,7 @@ import dagger.hilt.components.SingletonComponent;
 public class AppModule {
     @Provides
     @Singleton
-    public AppDaoRepository provideAppDaoRepository(AppDao appDao,
-    FirebaseAuth auth){
+    public AppDaoRepository provideAppDaoRepository(AppDao appDao,FirebaseAuth auth){
         return new AppDaoRepository(appDao,auth);
     }
 

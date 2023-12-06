@@ -21,6 +21,7 @@ import com.example.foodorderapp.ui.adapter.food.FoodAdapter;
 import com.example.foodorderapp.ui.adapter.food.IFoodAdapterItemClickListener;
 import com.example.foodorderapp.ui.viewmodel.HomeViewModel;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,16 +48,27 @@ public class HomeFragment extends Fragment implements IFoodAdapterItemClickListe
 
         binding = FragmentHomeBinding.inflate(inflater,container,false);
 
+        /*utils = new Utils();
+        utils.bottomNavActivity(requireActivity());*/
         binding.foodRv.setLayoutManager
-                (new GridLayoutManager(getContext(),1,LinearLayoutManager.HORIZONTAL,false));
+                (new GridLayoutManager(getContext(),2,LinearLayoutManager.VERTICAL,false));
 
         favoriteList =new ArrayList<>();
+
+
 
         viewModel.foodList.observe(getViewLifecycleOwner(),foods -> {
 
             adapter =new FoodAdapter(foods,requireContext(),viewModel,favoriteList,this);
             binding.foodRv.setAdapter(adapter);
 
+        });
+
+        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.signOut();
+            }
         });
 
         binding.searchEt.addTextChangedListener(new TextWatcher() {
@@ -77,12 +89,12 @@ public class HomeFragment extends Fragment implements IFoodAdapterItemClickListe
             }
         });
 
-        binding.goToFavoritePageBtn.setOnClickListener(new View.OnClickListener() {
+        /*binding.goToFavoritePageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_favoriteFragment);
             }
-        });
+        });*/
 
         return binding.getRoot();
     }

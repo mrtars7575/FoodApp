@@ -40,6 +40,9 @@ public class FavoriteFragment extends Fragment implements IFavoriteAdapaterItemC
         // Inflate the layout for this fragment
         binding = FragmentFavoriteBinding.inflate(inflater,container,false);
 
+        /*utils = new Utils();
+        utils.bottomNavActivity(requireActivity());*/
+
         binding.favoriteRv.setLayoutManager
                 (new GridLayoutManager(getContext(),1, LinearLayoutManager.VERTICAL,false));
 

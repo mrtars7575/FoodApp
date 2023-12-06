@@ -34,6 +34,9 @@ public class SignUpFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentSignUpBinding.inflate(inflater,container,false);
 
+        /*utils = new Utils();
+        utils.bottomNavInActivity(requireActivity());*/
+
         binding.signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

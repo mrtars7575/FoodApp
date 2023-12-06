@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.foodorderapp.data.entity.Food;
 import com.example.foodorderapp.data.repo.AppDaoRepository;
 import com.example.foodorderapp.data.repo.database.FirebaseDatabaseRepository;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -19,14 +20,16 @@ public class HomeViewModel extends ViewModel {
     public MutableLiveData<List<Food>> foodList;
     public MutableLiveData<List<Food>> favoriteList;
     public FirebaseDatabaseRepository firebaseDatabaseRepository;
+    public FirebaseAuth auth;
 
     @Inject
-    public HomeViewModel(AppDaoRepository appDaoRepository,FirebaseDatabaseRepository firebaseDatabaseRepository) {
+    public HomeViewModel(AppDaoRepository appDaoRepository,FirebaseDatabaseRepository firebaseDatabaseRepository,FirebaseAuth auth) {
         this.appDaoRepository = appDaoRepository;
         this.firebaseDatabaseRepository = firebaseDatabaseRepository;
         getAllFood();
         foodList =appDaoRepository.foodList;
         favoriteList = firebaseDatabaseRepository.favoriteLiveData;
+        this.auth = auth;
     }
 
     public void getAllFood(){
@@ -44,6 +47,10 @@ public class HomeViewModel extends ViewModel {
 
     public void loadFavorite(){
         favoriteList = firebaseDatabaseRepository.favoriteLiveData;
+    }
+
+    public void signOut(){
+        auth.signOut();
     }
 
 }

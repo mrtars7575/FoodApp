@@ -19,6 +19,7 @@ import com.example.foodorderapp.data.entity.Food;
 import com.example.foodorderapp.databinding.FragmentDetailBinding;
 import com.example.foodorderapp.ui.viewmodel.DetailViewModel;
 
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -41,6 +42,10 @@ public class DetailFragment extends Fragment {
 
         binding = FragmentDetailBinding.inflate(inflater,container,false);
 
+
+        /* utils = new Utils();
+        utils.bottomNavInActivity(requireActivity());*/
+
         DetailFragmentArgs bundle = DetailFragmentArgs.fromBundle(getArguments());
         Food food =bundle.getFood();
 
@@ -57,33 +62,18 @@ public class DetailFragment extends Fragment {
 
         binding.detailFoodNameTv.setText(food.getFoodName());
 
-        binding.increaseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewModel.increaseQuantity();
-            }
-        });
+        binding.increaseBtn.setOnClickListener(view -> viewModel.increaseQuantity());
 
-        binding.decreaseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewModel.decreaseQuantity();
-            }
-        });
+        binding.decreaseBtn.setOnClickListener(view -> viewModel.decreaseQuantity());
 
-        binding.addBasketBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewModel.insertFoodToBasket(food.getFoodName(), food.getFoodImageName(),food.getFoodPrice()
-                        ,viewModel.foodQuantity.getValue());
+        binding.addBasketBtn.setOnClickListener(view -> {
+            viewModel.insertFoodToBasket(food.getFoodName(), food.getFoodImageName(),food.getFoodPrice()
+                    ,viewModel.foodQuantity.getValue());
 
-                Navigation.findNavController(view).navigate(R.id.action_detailFragment_to_basketFragment);
-            }
+            Navigation.findNavController(view).navigate(R.id.action_detailFragment_to_basketFragment);
         });
 
         viewModel.favoriteList.observe(getViewLifecycleOwner(),foods -> {
-
-
 
             if (foods.contains(food)){
                 //
@@ -95,19 +85,15 @@ public class DetailFragment extends Fragment {
             }
         });
 
-        binding.detailToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b){
-                    //
-                    viewModel.addToFavorite(food);
-                }else{
-                    //
-                    viewModel.deleteFromFavorite(food);
-                }
+        binding.detailToggleButton.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b){
+                //
+                viewModel.addToFavorite(food);
+            }else{
+                //
+                viewModel.deleteFromFavorite(food);
             }
         });
-
 
         return binding.getRoot();
     }
