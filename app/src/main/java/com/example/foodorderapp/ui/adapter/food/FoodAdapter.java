@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 
@@ -12,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.foodorderapp.R;
 import com.example.foodorderapp.data.entity.Food;
 import com.example.foodorderapp.databinding.FoodRecyclerViewBinding;
 import com.example.foodorderapp.ui.fragment.HomeFragmentDirections;
@@ -47,11 +49,17 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
 
                List<Food> filtered = new ArrayList<>();
 
-                for (Food food : foodList) {
-                    if (food.getFoodName().toLowerCase().contains(query)) {
-                        filtered.add(food);
-                    }
-                }
+               if (query.isEmpty()){
+                   filtered.addAll(foodList);
+               }else{
+                   for (Food food : foodList) {
+                       if (food.getFoodName().toLowerCase().contains(query)) {
+                           filtered.add(food);
+                       }
+                   }
+               }
+
+
 
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = filtered;
@@ -94,10 +102,11 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
     public void onBindViewHolder(@NonNull FoodAdapter.ViewHolder holder, int position) {
         Food food = filteredList.get(position);
         holder.binding.foodNameTv.setText(food.getFoodName());
-        holder.binding.foodPriceTv.setText(String.valueOf(food.getFoodPrice()));
+        holder.binding.foodPriceTv.setText(String.valueOf(food.getFoodPrice()) + " ₺");
 
         String url = "http://kasimadalan.pe.hu/yemekler/resimler/" + food.getFoodImageName();
         Glide.with(mContext).load(url).into(holder.binding.foodIv);
+
 
 
 
@@ -115,9 +124,12 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
         // toggle button click
         holder.binding.favoriteToggleButton.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b){
+
+                holder.binding.favoriteToggleButton.setBackgroundResource(R.drawable.heart2);
                 System.out.println("is checked : " + b);
                 // different icon
             }else{
+                holder.binding.favoriteToggleButton.setBackgroundResource(R.drawable.heart);
                 System.out.println("is checked : " + b);
                 //
             }
@@ -127,15 +139,15 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
         });
 
 
-
         //check toggle button
         if(favoriteList.contains(food)){
             // icon
+            holder.binding.favoriteToggleButton.setBackgroundResource(R.drawable.heart2);
             holder.binding.favoriteToggleButton.setChecked(true);
         }else{
+            holder.binding.favoriteToggleButton.setBackgroundResource(R.drawable.heart);
             holder.binding.favoriteToggleButton.setChecked(false);
         }
-
 
 
     }

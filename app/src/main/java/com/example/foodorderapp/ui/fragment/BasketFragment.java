@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.foodorderapp.data.entity.Basket;
 import com.example.foodorderapp.databinding.FragmentBasketBinding;
 import com.example.foodorderapp.ui.adapter.basket.BasketAdapter;
 import com.example.foodorderapp.ui.viewmodel.BasketViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -36,21 +38,29 @@ public class BasketFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentBasketBinding.inflate(inflater,container,false);
 
-        /*utils = new Utils();
-        utils.bottomNavInActivity(requireActivity());*/
 
         binding.basketRv.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         viewModel.basketList.observe(getViewLifecycleOwner(),baskets -> {
-
             adapter = new BasketAdapter(baskets,getContext(),viewModel);
             binding.basketRv.setAdapter(adapter);
 
         });
 
+        viewModel.basketFoodTotalPrice.observe(getViewLifecycleOwner(),integer -> {
+            binding.allBasketTotalPriceTv.setText(String.valueOf(integer) + " ₺");
+        });
+
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(binding.getRoot(), "Confirm Basket", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+
         return binding.getRoot();
     }
-
     @Override
     public void onResume() {
         super.onResume();

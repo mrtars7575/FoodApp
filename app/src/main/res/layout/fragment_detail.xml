@@ -42,37 +42,24 @@
                 tools:ignore="MissingConstraints"
                 tools:src="@tools:sample/avatars" />
 
-            <ToggleButton
-                android:id="@+id/detailToggleButton"
-                android:layout_width="57dp"
-                android:layout_height="44dp"
-                android:layout_marginTop="-8dp"
-                android:layout_marginEnd="29dp"
-                android:background="@drawable/heart"
-                android:text="ToggleButton"
-                android:textOff='"OFF"'
-                android:textOn='"ON"'
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.cardview.widget.CardView>
 
+
     <TextView
         android:id="@+id/detailFoodPriceTv"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="64dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="24dp"
         android:text="3"
         android:textAlignment="center"
         android:textColor="#44c662"
         android:textSize="35sp"
-        app:layout_constraintStart_toStartOf="@+id/detailQuantityTv"
+        app:layout_constraintEnd_toEndOf="@+id/increaseBtn"
+        app:layout_constraintStart_toStartOf="@+id/decreaseBtn"
         app:layout_constraintTop_toBottomOf="@+id/detailQuantityTv" />
-
 
     <ImageButton
         android:id="@+id/decreaseBtn"
@@ -120,9 +107,11 @@
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="38dp"
         android:background="#44c662"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/detailToggleButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,21 +131,24 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar2"
         tools:ignore="MissingConstraints" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/addBasketBtn"
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:layout_marginBottom="16dp"
-        android:background="#44c662"
+
+        android:background="@drawable/circle_background"
         android:backgroundTint="#44c662"
         android:foregroundTint="#44c662"
+
         android:text="ADD TO CART"
         android:textSize="20sp"
+        app:cornerRadius="50dp"
         app:icon="@drawable/shopping_cart"
         app:iconGravity="textStart"
         app:iconSize="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:strokeColor="#44c662" />
 
@@ -172,5 +164,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailCardView" />
+
+    <ToggleButton
+        android:id="@+id/detailToggleButton"
+        android:layout_width="57dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="3dp"
+
+        android:layout_marginBottom="673dp"
+        android:background="@drawable/heart"
+        android:textOff=""
+        android:textOn=""
+        android:checked="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/detailCardView"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

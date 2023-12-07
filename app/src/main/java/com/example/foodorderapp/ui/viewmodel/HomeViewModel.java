@@ -30,6 +30,16 @@ public class HomeViewModel extends ViewModel {
         foodList =appDaoRepository.foodList;
         favoriteList = firebaseDatabaseRepository.favoriteLiveData;
         this.auth = auth;
+
+    }
+
+
+    public String getCurrentUsername(){
+        if (auth.getCurrentUser() != null){
+            return auth.getCurrentUser().getDisplayName();
+        }else{
+            return "";
+        }
     }
 
     public void getAllFood(){
@@ -51,6 +61,11 @@ public class HomeViewModel extends ViewModel {
 
     public void signOut(){
         auth.signOut();
+    }
+
+    public void insertFoodToBasket(String foodName,String foodImageName,int foodPrice,int foodQuantity){
+        String name = getCurrentUsername();
+        appDaoRepository.insertFoodToBasket(foodName,foodImageName,foodPrice,foodQuantity,name);
     }
 
 }

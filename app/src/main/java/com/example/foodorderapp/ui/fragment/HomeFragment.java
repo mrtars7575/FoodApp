@@ -55,7 +55,9 @@ public class HomeFragment extends Fragment implements IFoodAdapterItemClickListe
 
         favoriteList =new ArrayList<>();
 
+        String username = viewModel.getCurrentUsername();
 
+        binding.userNameTv.setText("Welcome "+username);
 
         viewModel.foodList.observe(getViewLifecycleOwner(),foods -> {
 
@@ -68,6 +70,7 @@ public class HomeFragment extends Fragment implements IFoodAdapterItemClickListe
             @Override
             public void onClick(View view) {
                 viewModel.signOut();
+
             }
         });
 
@@ -80,6 +83,8 @@ public class HomeFragment extends Fragment implements IFoodAdapterItemClickListe
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 System.out.println("charSequence : " + charSequence );
+
+
                 adapter.getFilter().filter(charSequence);
             }
 
@@ -104,6 +109,11 @@ public class HomeFragment extends Fragment implements IFoodAdapterItemClickListe
     public void onResume() {
         super.onResume();
         viewModel.getAllFood();
+    }
+
+    @Override
+    public void onClickAddButton(Food food) {
+
     }
 
     @Override

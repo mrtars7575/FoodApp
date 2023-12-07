@@ -1,5 +1,7 @@
 package com.example.foodorderapp.ui.fragment;
 
+import static androidx.navigation.fragment.FragmentKt.findNavController;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +20,7 @@ import com.example.foodorderapp.R;
 import com.example.foodorderapp.data.entity.Food;
 import com.example.foodorderapp.databinding.FragmentDetailBinding;
 import com.example.foodorderapp.ui.viewmodel.DetailViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -50,6 +53,8 @@ public class DetailFragment extends Fragment {
         Food food =bundle.getFood();
 
 
+
+
         String url = "http://kasimadalan.pe.hu/yemekler/resimler/" + food.getFoodImageName();
         Glide.with(getContext())
                 .load(url)
@@ -58,6 +63,9 @@ public class DetailFragment extends Fragment {
         viewModel.foodQuantity.observe(getViewLifecycleOwner(),foodQunatity -> {
             binding.detailFoodPriceTv.setText(String.valueOf(food.getFoodPrice()));
             binding.detailQuantityTv.setText(String.valueOf(foodQunatity));
+
+            int totalPrice = food.getFoodPrice() * foodQunatity;
+            binding.detailFoodPriceTv.setText(String.valueOf(totalPrice));
         });
 
         binding.detailFoodNameTv.setText(food.getFoodName());
@@ -70,7 +78,10 @@ public class DetailFragment extends Fragment {
             viewModel.insertFoodToBasket(food.getFoodName(), food.getFoodImageName(),food.getFoodPrice()
                     ,viewModel.foodQuantity.getValue());
 
-            Navigation.findNavController(view).navigate(R.id.action_detailFragment_to_basketFragment);
+            Snackbar.make(binding.getRoot(), "Added to basket", Snackbar.LENGTH_LONG).show();
+            NavHostFragment.findNavController(this).navigateUp();
+
+          ;
         });
 
         viewModel.favoriteList.observe(getViewLifecycleOwner(),foods -> {

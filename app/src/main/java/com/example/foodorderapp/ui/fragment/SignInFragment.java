@@ -1,5 +1,6 @@
 package com.example.foodorderapp.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.foodorderapp.R;
 import com.example.foodorderapp.databinding.FragmentSignInBinding;
+import com.example.foodorderapp.ui.activity.MainActivity;
 import com.example.foodorderapp.ui.viewmodel.SignInViewModel;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -36,10 +38,6 @@ public class SignInFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentSignInBinding.inflate(inflater,container,false);
 
-        /*utils = new Utils();
-        utils.bottomNavInActivity(requireActivity());*/
-
-
 
         binding.signInButton.setOnClickListener(new View.OnClickListener() {
 
@@ -55,7 +53,10 @@ public class SignInFragment extends Fragment {
                     viewModel.userLogged.observe(getViewLifecycleOwner(),value -> {
                         System.out.println("value " + value);
                         if(value){
-                           Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeFragment);
+
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            startActivity(intent);
+
                         }
                     });
                 }

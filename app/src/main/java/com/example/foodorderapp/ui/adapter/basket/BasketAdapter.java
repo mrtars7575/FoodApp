@@ -58,13 +58,13 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.ViewHolder
         System.out.println("basket food name " + basket.getFoodName());
 
 
-        holder.binding.basketFoodPriceTv.setText(String.valueOf(basket.getFoodPrice()));
+        holder.binding.basketFoodPriceTv.setText(String.valueOf(basket.getFoodPrice()) +  " ₺");
         holder.binding.basketFoodNameTv.setText(basket.getFoodName().toString());
         holder.binding.basketFoodQuantityTv.setText(String.valueOf(basket.getFoodQuantity()));
 
         int totalPrice = basket.getFoodPrice() * basket.getFoodQuantity();
 
-        holder.binding.basketFoodTotalPriceTv.setText(String.valueOf(totalPrice));
+        holder.binding.basketFoodTotalPriceTv.setText(String.valueOf(totalPrice) + " ₺");
 
         String url = "http://kasimadalan.pe.hu/yemekler/resimler/" + basket.getFoodImageName();
         Glide.with(mContext).load(url).into(holder.binding.basketFoodIv);

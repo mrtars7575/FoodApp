@@ -19,7 +19,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar3" />
 
     <TextView
-        android:id="@+id/basketTotalPriceTv"
+        android:id="@+id/allBasketTotalPriceTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -72,9 +72,7 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="24dp"
+        android:background="@drawable/circle_background"
         android:backgroundTint="#44c662"
         android:text="CONFIRM BASKET"
         android:textSize="16sp"

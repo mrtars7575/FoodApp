@@ -65,4 +65,5 @@ public class DetailViewModel extends ViewModel {
     }
 
 
+
 }

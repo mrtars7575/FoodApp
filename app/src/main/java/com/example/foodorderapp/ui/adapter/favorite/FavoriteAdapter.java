@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.foodorderapp.R;
 import com.example.foodorderapp.data.entity.Favorite;
 import com.example.foodorderapp.data.entity.Food;
 import com.example.foodorderapp.databinding.FavoriteRecyclerViewBinding;
@@ -55,18 +56,20 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
     public void onBindViewHolder(@NonNull FavoriteAdapter.ViewHolder holder, int position) {
         Food favoriteFood = favoriteList.get(position);
         holder.binding.favoriteFoodNameTv.setText(favoriteFood.getFoodName());
-        holder.binding.favoriteFoodPriceTv.setText(String.valueOf(favoriteFood.getFoodPrice()));
+        holder.binding.favoriteRvFoodPriceTv.setText(String.valueOf(favoriteFood.getFoodPrice()) + " ₺");
 
         String url = "http://kasimadalan.pe.hu/yemekler/resimler/" + favoriteFood.getFoodImageName();
         Glide.with(mContext).load(url).into(holder.binding.favoriteFoodIv);
 
-        holder.binding.toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.binding.favoriteToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     //
+                    holder.binding.favoriteToggleButton.setBackgroundResource(R.drawable.heart2);
                 }else{
                     //
+                    holder.binding.favoriteToggleButton.setBackgroundResource(R.drawable.heart);
                 }
 
                 listener.onClickFavoriteToggleButton(favoriteFood,b);

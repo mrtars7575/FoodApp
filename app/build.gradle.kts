@@ -38,6 +38,8 @@ android {
     }
 }
 
+
+
 dependencies {
 
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -77,4 +79,7 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
 
     implementation ("com.github.ibrahimsn98:SmoothBottomBar:1.7.9")
+
+
+    implementation ("com.airbnb.android:lottie:3.4.0")
 }
