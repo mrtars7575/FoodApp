@@ -17,6 +17,9 @@ import com.example.foodorderapp.ui.viewmodel.BasketViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -25,6 +28,7 @@ public class BasketFragment extends Fragment {
     private FragmentBasketBinding binding;
     private BasketViewModel viewModel;
     private BasketAdapter adapter;
+    private List<Basket> basketList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,14 +46,27 @@ public class BasketFragment extends Fragment {
         binding.basketRv.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         viewModel.basketList.observe(getViewLifecycleOwner(),baskets -> {
+
+            int listSize = 0;
             adapter = new BasketAdapter(baskets,getContext(),viewModel);
             binding.basketRv.setAdapter(adapter);
+            listSize = baskets.size();
+            basketList = baskets;
+
+            if (listSize> 0){
+                viewModel.basketFoodTotalPrice.observe(getViewLifecycleOwner(),integer -> {
+                    binding.allBasketTotalPriceTv.setText(String.valueOf(integer) + " ₺");
+
+                });
+
+            }else{
+                binding.allBasketTotalPriceTv.setText("0 ₺");
+
+            }
 
         });
 
-        viewModel.basketFoodTotalPrice.observe(getViewLifecycleOwner(),integer -> {
-            binding.allBasketTotalPriceTv.setText(String.valueOf(integer) + " ₺");
-        });
+
 
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override

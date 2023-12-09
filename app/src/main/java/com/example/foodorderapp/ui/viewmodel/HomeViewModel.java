@@ -28,8 +28,8 @@ public class HomeViewModel extends ViewModel {
         this.firebaseDatabaseRepository = firebaseDatabaseRepository;
         getAllFood();
         foodList =appDaoRepository.foodList;
-        favoriteList = firebaseDatabaseRepository.favoriteLiveData;
         this.auth = auth;
+        loadFavorite();
 
     }
 
@@ -45,7 +45,6 @@ public class HomeViewModel extends ViewModel {
     public void getAllFood(){
         appDaoRepository.getAllFood();
     }
-
 
     public void addToFavorite(Food food){
         firebaseDatabaseRepository.addFavorite(food);

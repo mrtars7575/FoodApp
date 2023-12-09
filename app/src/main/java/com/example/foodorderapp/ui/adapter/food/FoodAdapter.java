@@ -28,8 +28,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
     private Context mContext;
     private HomeViewModel viewModel;
     private List<Food> filteredList;
-    private List<Food> favoriteList;
+    public List<Food> favoriteList;
     private IFoodAdapterItemClickListener listener;
+    boolean isFirstRun = true;
 
     public FoodAdapter(List<Food> foodList, Context mContext, HomeViewModel viewModel,List<Food> favoriteList,IFoodAdapterItemClickListener listener) {
         this.foodList = foodList;
@@ -108,34 +109,21 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
         Glide.with(mContext).load(url).into(holder.binding.foodIv);
 
 
+        holder.binding.foodCv.setOnClickListener(view -> {
+            HomeFragmentDirections.ActionHomeFragmentToDetailFragment action =
+                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(food);
 
-
-        holder.binding.foodCv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HomeFragmentDirections.ActionHomeFragmentToDetailFragment action =
-                        HomeFragmentDirections.actionHomeFragmentToDetailFragment(food);
-
-                Navigation.findNavController(view).navigate(action);
-            }
+            Navigation.findNavController(view).navigate(action);
         });
-
 
         // toggle button click
         holder.binding.favoriteToggleButton.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b){
-
                 holder.binding.favoriteToggleButton.setBackgroundResource(R.drawable.heart2);
-                System.out.println("is checked : " + b);
-                // different icon
             }else{
                 holder.binding.favoriteToggleButton.setBackgroundResource(R.drawable.heart);
-                System.out.println("is checked : " + b);
-                //
             }
-
             listener.onClickFavoriteToogleButton(food,b);
-
         });
 
 
@@ -150,6 +138,17 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> im
         }
 
 
+        holder.binding.addBtn.setOnClickListener(view -> listener.onClickAddButton(food));
+
+
+    }
+
+    public void updateFavoriteList(List<Food> newList){
+        favoriteList = newList;
+        if (isFirstRun){
+            notifyDataSetChanged();
+            isFirstRun = false;
+        }
     }
 
     @Override

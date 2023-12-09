@@ -173,11 +173,23 @@
 
         android:layout_marginBottom="673dp"
         android:background="@drawable/heart"
+        android:checked="false"
         android:textOff=""
         android:textOn=""
-        android:checked="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/detailCardView"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="64dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="₺"
+        android:textColor="@color/green"
+        android:textSize="35sp"
+        app:layout_constraintStart_toEndOf="@+id/detailFoodPriceTv"
+        app:layout_constraintTop_toBottomOf="@+id/increaseBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

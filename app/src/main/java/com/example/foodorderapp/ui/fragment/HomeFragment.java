@@ -1,5 +1,6 @@
 package com.example.foodorderapp.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,13 +14,18 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.foodorderapp.R;
+import com.example.foodorderapp.data.entity.Basket;
 import com.example.foodorderapp.data.entity.Food;
 import com.example.foodorderapp.databinding.FragmentHomeBinding;
+import com.example.foodorderapp.ui.activity.AuthOperationActivity;
 import com.example.foodorderapp.ui.adapter.food.FoodAdapter;
 import com.example.foodorderapp.ui.adapter.food.IFoodAdapterItemClickListener;
 import com.example.foodorderapp.ui.viewmodel.HomeViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 
 import java.util.ArrayList;
@@ -33,7 +39,9 @@ public class HomeFragment extends Fragment implements IFoodAdapterItemClickListe
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
     private FoodAdapter adapter;
-    private List<Food> favoriteList;
+    public List<Food> favoriteList;
+
+    boolean isButtonClicked;
 
 
     @Override
@@ -48,10 +56,7 @@ public class HomeFragment extends Fragment implements IFoodAdapterItemClickListe
 
         binding = FragmentHomeBinding.inflate(inflater,container,false);
 
-        /*utils = new Utils();
-        utils.bottomNavActivity(requireActivity());*/
-        binding.foodRv.setLayoutManager
-                (new GridLayoutManager(getContext(),2,LinearLayoutManager.VERTICAL,false));
+        binding.foodRv.setLayoutManager(new GridLayoutManager(getContext(),2,LinearLayoutManager.VERTICAL,false));
 
         favoriteList =new ArrayList<>();
 
@@ -70,6 +75,9 @@ public class HomeFragment extends Fragment implements IFoodAdapterItemClickListe
             @Override
             public void onClick(View view) {
                 viewModel.signOut();
+
+                Intent intent = new Intent(getActivity(), AuthOperationActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -94,12 +102,10 @@ public class HomeFragment extends Fragment implements IFoodAdapterItemClickListe
             }
         });
 
-        /*binding.goToFavoritePageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_favoriteFragment);
-            }
-        });*/
+        viewModel.favoriteList.observe(getViewLifecycleOwner(),foods -> {
+            favoriteList = foods;
+            adapter.updateFavoriteList(foods);
+        });
 
         return binding.getRoot();
     }
@@ -113,7 +119,22 @@ public class HomeFragment extends Fragment implements IFoodAdapterItemClickListe
 
     @Override
     public void onClickAddButton(Food food) {
-
+        isButtonClicked = false;
+        Snackbar.make(binding.getRoot(), "Add " + food.getFoodName() +"to basket?", Snackbar.LENGTH_LONG)
+                .setAction("YES", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (isButtonClicked == false) {
+                            isButtonClicked = true;
+                            viewModel.insertFoodToBasket(
+                                    food.getFoodName(),
+                                    food.getFoodImageName(),
+                                    food.getFoodPrice(),
+                                    1);
+                            Toast.makeText(requireContext(), "Added to basket", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).show();
     }
 
     @Override
@@ -127,6 +148,7 @@ public class HomeFragment extends Fragment implements IFoodAdapterItemClickListe
             viewModel.addToFavorite(food);
         }else{
             viewModel.deleteToFavorite(food);
+
         }
     }
 }

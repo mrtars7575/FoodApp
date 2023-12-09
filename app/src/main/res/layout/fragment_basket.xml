@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragment.BasketFragment">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/basketRv"
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:text="550"
+        android:text="0"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"

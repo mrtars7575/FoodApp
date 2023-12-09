@@ -28,7 +28,7 @@ public class BasketViewModel extends ViewModel {
     private String username ;
 
 
-    public MutableLiveData<Integer> basketFoodTotalPrice = new MutableLiveData<>();
+    public MutableLiveData<Double> basketFoodTotalPrice = new MutableLiveData<>();
 
     @Inject
     public BasketViewModel(AppDaoRepository appDaoRepository,FirebaseDatabaseRepository firebaseDatabaseRepository,FirebaseAuth auth) {
@@ -51,16 +51,16 @@ public class BasketViewModel extends ViewModel {
 
     private void totalPriceObserve(){
         basketList.observeForever(baskets -> {
-            int totalPrice = 0;
+            Double totalPrice = 0.0;
 
-            if (baskets!=null){
+            if (baskets.size()>0){
                 for(Basket basket : baskets){
                     totalPrice += basket.getFoodPrice() * basket.getFoodQuantity();
                 }
 
                 basketFoodTotalPrice.setValue(totalPrice);
             }else{
-                basketFoodTotalPrice.setValue(0);
+                basketFoodTotalPrice.setValue(0.0);
             }
 
         });

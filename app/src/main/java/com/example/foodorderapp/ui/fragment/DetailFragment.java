@@ -31,6 +31,8 @@ public class DetailFragment extends Fragment {
     private FragmentDetailBinding binding;
     private DetailViewModel viewModel;
 
+    int totalPrice;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,14 +47,8 @@ public class DetailFragment extends Fragment {
 
         binding = FragmentDetailBinding.inflate(inflater,container,false);
 
-
-        /* utils = new Utils();
-        utils.bottomNavInActivity(requireActivity());*/
-
         DetailFragmentArgs bundle = DetailFragmentArgs.fromBundle(getArguments());
         Food food =bundle.getFood();
-
-
 
 
         String url = "http://kasimadalan.pe.hu/yemekler/resimler/" + food.getFoodImageName();
@@ -61,12 +57,16 @@ public class DetailFragment extends Fragment {
                 .into(binding.detailFoodIv);
 
         viewModel.foodQuantity.observe(getViewLifecycleOwner(),foodQunatity -> {
-            binding.detailFoodPriceTv.setText(String.valueOf(food.getFoodPrice()));
+            // binding.detailFoodPriceTv.setText(String.valueOf(food.getFoodPrice() + " ₺"));
             binding.detailQuantityTv.setText(String.valueOf(foodQunatity));
 
-            int totalPrice = food.getFoodPrice() * foodQunatity;
+            totalPrice = food.getFoodPrice() * foodQunatity;
             binding.detailFoodPriceTv.setText(String.valueOf(totalPrice));
+
         });
+
+
+
 
         binding.detailFoodNameTv.setText(food.getFoodName());
 
@@ -81,27 +81,24 @@ public class DetailFragment extends Fragment {
             Snackbar.make(binding.getRoot(), "Added to basket", Snackbar.LENGTH_LONG).show();
             NavHostFragment.findNavController(this).navigateUp();
 
-          ;
         });
 
         viewModel.favoriteList.observe(getViewLifecycleOwner(),foods -> {
 
             if (foods.contains(food)){
-                //
+                binding.detailToggleButton.setBackgroundResource(R.drawable.heart2);
                 binding.detailToggleButton.setChecked(true);
             }else{
-                //
                 boolean mBool = false;
+                binding.detailToggleButton.setBackgroundResource(R.drawable.heart);
                 binding.detailToggleButton.setChecked(mBool);
             }
         });
 
         binding.detailToggleButton.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b){
-                //
                 viewModel.addToFavorite(food);
             }else{
-                //
                 viewModel.deleteFromFavorite(food);
             }
         });
